@@ -1,11 +1,10 @@
 from rest_framework import generics, permissions
 from rest_framework.filters import SearchFilter
+from rest_framework.exceptions import ValidationError
 from .models import DoctorProfile
 from .serializers import DoctorProfileSerializer
-from rest_framework.exceptions import ValidationError
 
-
-class DoctorProfileCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView,):
+class DoctorProfileCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView):
     queryset = DoctorProfile.objects.all()
     serializer_class = DoctorProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -23,5 +22,6 @@ class DoctorProfileCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIVi
 class DoctorProfileListView(generics.ListAPIView):
     queryset = DoctorProfile.objects.all()
     serializer_class = DoctorProfileSerializer
+    permission_classes = [permissions.AllowAny] 
     filter_backends = [SearchFilter]
     search_fields = ['name', 'specialty']

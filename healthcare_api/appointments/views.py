@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from .models import Appointment
 from .serializers import AppointmentSerializer
 
-# Create an appointment (patients only)
+
 class AppointmentCreateView(generics.CreateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
@@ -14,7 +14,7 @@ class AppointmentCreateView(generics.CreateAPIView):
             raise ValidationError("Only patients can create appointments.")
         serializer.save(patient=self.request.user)
 
-# List appointments for logged-in user
+
 class AppointmentListView(generics.ListAPIView):
     serializer_class = AppointmentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -24,7 +24,7 @@ class AppointmentListView(generics.ListAPIView):
             return Appointment.objects.filter(doctor__user=self.request.user)
         return Appointment.objects.filter(patient=self.request.user)
 
-# Update appointment status (doctors only)
+
 class AppointmentStatusUpdateView(generics.UpdateAPIView):
     queryset = Appointment.objects.all()
     serializer_class = AppointmentSerializer
